@@ -1,0 +1,15 @@
+Apple_iPhone_7_Plus 1 256 4 2.2 3 5.5 2 12 2900
+Apple_iPhone_7 1 256 4 2 2 4.7 2 12 1960
+Apple_iPhone_SE 1 64 2 1.8 2 4 2 12 1642
+Apple_iPhone_6s_Plus 1 128 2 2 2 5.5 2 12 2750
+Apple_iPhone_6s 1 128 2 1.8 2 4.7 2 12 1715
+Apple_iPhone_6_Plus_ 1 128 2 1.4 1 5.5 2 8 2915
+Apple_iPhone_6 1 128 2 1.4 1 4.7 2 8 1810
+Apple_iPhone_5C 1 8 2 1.3 1 4 2 8 1510
+Apple_iPhone_5S 1 64 2 1.3 1 4 2 8 1570
+Apple_iPhone_5 1 64 2 1.3 1 4 2 8 1434
+Apple_iPhone_4S 1 64 2 1 0.5 3.5 2 8 1432
+Apple_iPhone_4 1 32 1 1 0.5 3.5 2 2 1420
+Apple_iPhone_3G_S 1 32 1 0.6 0.25 3.5 1 3.15 1415
+Apple_iPhone_3G 1 16 1 0.412 0.125 3.5 1 2 1400
+Apple_iPhone_2G 1 16 1 0.412 0.050 3.5 1 2 1385
