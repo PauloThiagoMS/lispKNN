@@ -1,0 +1,3 @@
+(SETQ RE (OPEN "lispknn\database.txt" "r"))
+(SETQ A (READ-LINE RE))
+(CLOSE RE)
