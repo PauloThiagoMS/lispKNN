@@ -1,3 +1,0 @@
-(defparameter *s* (open "lispknn/database.txt"))
-*S*
-CL-USER> (read-line *s*)
