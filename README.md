@@ -8,3 +8,4 @@ https://www.tutorialspoint.com/lisp/lisp_arrays.htm
 http://www.dca.ufrn.br/~adelardo/lisp/
 http://www.gigamonkeys.com/book/files-and-file-io.html
 http://dantorop.info/project/emacs-animation/lisp9.html
+https://ghostbin.com/paste/urprhydr
