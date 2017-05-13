@@ -1,55 +1,147 @@
-(setq cont 0)
-(defparameter in (open "lispknn/database.txt"))
-(when in
-    (loop for line = (read-line in nil)
-    while line do (format t "~d ~a~%" cont line )
-      (incf cont)
-    )
-   (close in)
+;Estrutura de um Aparelho
+(defstruct phone 
+     modelo 
+     maxsim 
+     maxmem
+     core
+     clock
+     ram
+     display
+     pixel
+     ratio
+     qual
+)
+
+
+;Retorna a Quantidade de linhas que o arquivo (File) possui
+(defun LineLen (File) 
+     (setq cont 0)
+     (defparameter in (open File))
+     (when in
+          (loop for line = (read-line in nil)
+               while line do 
+                    (incf cont)
+         )
+     (close in)
+     cont
    )
 )
-(while line do (format t "~d ~a~%" cont line ))
 
-(defstruct node 
-   modelo 
-   maxsim 
-   maxmem
-   core
-   clock
-   ram
-   display
-   pixel
-   fator
-   qual
-   prox
+
+;Adiciona o elemento (Phone) na ultima posição da lista (List) e a retorna
+(defun AddList (List Phone)
+     (setq List(append List(list Phone)))
+     List
+)
+  
+  
+
+;Intancia o Banco de Dados (File)
+(defun GetDatabase (File)
+     (setq cont (LineLen File))
+     (setq List ())
+     (defparameter in (open File))
+     (loop for x from 1 to cont
+           do 
+          ( setq cell 
+               (make-phone 
+                    :modelo (read in)
+                    :maxsim (read in)
+                    :maxmem (read in)
+                    :core (read in)
+                    :clock (read in)
+                    :ram (read in)
+                    :display (read in)
+                    :pixel (read in)
+                    :qual (read in) 
+                )
+          )
+          (setq List (AddList List cell))
+     )
+     (close in)
+     List
 )
 
-(defparameter *s* (open "lispknn/database.txt"))
 
-(defun addLista (fil)
-  ( setq book 
-    (make-node 
-      :modelo (read *s*)
-      :maxsim (read *s*)
-      :maxmem (read *s*)
-      :core (read *s*)
-      :clock (read *s*)
-      :ram (read *s*)
-      :display (read *s*)
-      :pixel (read *s*)
-      :fator (read *s*)
-      :qual (read *s*)
-      :prox fil
-    )
-  )
+
+;Retorna uma estrutura Phone com as caracteristicas informadas pelo usuario
+(defun Menu ()
+     (format t "          ##      ##  ######  ######~%")
+     (format t "         ##      ##  ######  ##  ##~%")
+     (format t "        ##          ##      ##  ##~%")
+     (format t "       ##      ##  ##      ##  ##~%")
+     (format t "      ##      ##  ######  ######~%")
+     (format t "     ##      ##  ######  ######~%")
+     (format t "    ##      ##      ##  ##~%")
+     (format t "   ##      ##      ##  ##~%")
+     (format t "  ##      ##      ##  ##~%")
+     (format t " ######  ##  ######  ##~%")
+     (format t "######  ##  ######  ## CELLPHONE KNN~%")
+     (terpri)
+     (format t "Qual a capacidade maxima de ChipsSim do aparelho?~%")
+     (format t "MaxSim:")
+     (setq maxsim(read))
+     (format t "~%Qual a capacidade maxima de Armazenamento interno do aparelho em Gbs?~%")
+     (format t "MaxMem:")
+     (setq maxmem(read))
+     (format t "~%Quantos nucleos o processador do aparelho possui?~%")
+     (format t "Core:")
+     (setq core(read))
+     (format t "~%Em qual frequencia processador do aparelho opera?~%")
+     (format t "Clock:")
+     (setq clock(read))
+     (format t "~%Qual a quantidade de Memorima RAM o aparelho possui em Gbs?~%")
+     (format t "Ram:")
+     (setq ram(read))
+     (format t "~%Quantas polegadas possui o Display do aparelho?~%")
+     (format t "Display:")
+     (setq display(read))
+     (format t "~%Quantos Megapixels possui a camera do aparelho?~%")
+     (format t "Pixel:")
+     (setq pixel(read))
+	 (format t "~%Qual o valor de K? (Range de Pesquisa)~%")
+     (format t "Range:")
+     (setq ratio(read))
+     ( setq cell 
+          (make-phone 
+               :modelo "User_Definition"
+               :maxsim maxsim
+               :maxmem maxmem
+               :core core
+               :clock clock
+               :ram ram
+               :display display
+               :pixel pixel
+			   :ratio ratio
+           )
+     )
+     (terpri)
+     cell
 )
 
-( setq fila (addLista (nil)))
-( setq fila (addLista (fila)))
-   
+;Calcula o ratio no banco (Fila) segundo o aparelho (cell)
+(defun CalcRatio (Fila cell)
+     (setq cont (list-length Fila))
+     (setq cont (- cont 1))
+     (loop for x from 0 to cont
+           do
+                  (setq GetCell (nth x Fila))
+                  (setq soma (expt (- (phone-maxsim cell) (phone-maxsim GetCell))2))
+                  (setq soma (+ soma (expt (- (phone-maxmem cell) (phone-maxmem GetCell))2)))
+                  (setq soma (+ soma (expt (- (phone-core cell) (phone-core GetCell))2)))
+                  (setq soma (+ soma (expt (- (phone-clock cell) (phone-clock GetCell))2)))
+                  (setq soma (+ soma (expt (- (phone-ram cell) (phone-ram GetCell))2)))
+                  (setq soma (+ soma (expt (- (phone-display cell) (phone-display GetCell))2)))
+                  (setq soma (+ soma (expt (- (phone-pixel cell) (phone-pixel GetCell))2)))
+                  (setf (phone-ratio GetCell) (sqrt soma))
+     )
+     Fila
+)
 
-(when *s*
-    (loop for line = (read-line *s* nil)
-         while line do (format t "~a~%" line))
-         
-    (close *s*)))
+;main
+(setq File "lispknn/database.csv")
+(setq Fila (GetDatabase File))
+(setq user (menu))
+(setq Fila (CalcRatio Fila user))
+(write Fila)
+(setq x (read))
