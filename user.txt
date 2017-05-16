@@ -1,0 +1,10 @@
+1 64 2 1 0.5 3.5 8 5
+| |  | | |   |   | |
+| |  | | |   |   | +- Quantidade de itens da Lista de resultados
+| |  | | |   |   +--- Quantidade de Megapixel's da camera
+| |  | | |   +------- Tamanho do display em polegadas
+| |  | | +----------- Quantidade me memoria RAM (Gbs)
+| |  | +------------- Clock do processador (Ghz)
+| |  +--------------- Quantidade de nucleos do processador
+| +------------------ Quantidade Maxima de armazenamento interno
++-------------------- Quantidade Maxima de Chip-Sim
