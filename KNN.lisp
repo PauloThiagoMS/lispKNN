@@ -62,59 +62,22 @@
      List
 )
 
-
-
-;Retorna uma estrutura Phone com as caracteristicas informadas pelo usuario
-(defun Menu ()
-     (format t "          ##      ##  ######  ######~%")
-     (format t "         ##      ##  ######  ##  ##~%")
-     (format t "        ##          ##      ##  ##~%")
-     (format t "       ##      ##  ##      ##  ##~%")
-     (format t "      ##      ##  ######  ######~%")
-     (format t "     ##      ##  ######  ######~%")
-     (format t "    ##      ##      ##  ##~%")
-     (format t "   ##      ##      ##  ##~%")
-     (format t "  ##      ##      ##  ##~%")
-     (format t " ######  ##  ######  ##~%")
-     (format t "######  ##  ######  ## CELLPHONE KNN~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
-     (format t "Qual a capacidade maxima de ChipsSim do aparelho?~%")
-     (format t "MaxSim:")
-     (setq maxsim(read))
-     (format t "~%Qual a capacidade maxima de Armazenamento interno do aparelho em Gbs?~%")
-     (format t "MaxMem:")
-     (setq maxmem(read))
-     (format t "~%Quantos nucleos o processador do aparelho possui?~%")
-     (format t "Core:")
-     (setq core(read))
-     (format t "~%Em qual frequencia processador do aparelho opera?~%")
-     (format t "Clock:")
-     (setq clock(read))
-     (format t "~%Qual a quantidade de Memorima RAM o aparelho possui em Gbs?~%")
-     (format t "Ram:")
-     (setq ram(read))
-     (format t "~%Quantas polegadas possui o Display do aparelho?~%")
-     (format t "Display:")
-     (setq display(read))
-     (format t "~%Quantos Megapixels possui a camera do aparelho?~%")
-     (format t "Pixel:")
-     (setq pixel(read))
-	 (format t "~%Qual o valor de K? (Range de Pesquisa)~%")
-     (format t "Range:")
-     (setq ratio(read))
+;obtendo parametros de comparação
+(defun GetUser (File)
+     (defparameter in (open File))
      ( setq cell 
           (make-phone 
-               :modelo "User_Definition"
-               :maxsim maxsim
-               :maxmem maxmem
-               :core core
-               :clock clock
-               :ram ram
-               :display display
-               :pixel pixel
-			   :ratio ratio
-           )
+               :maxsim (read in)
+               :maxmem (read in)
+               :core (read in)
+               :clock (read in)
+               :ram (read in)
+               :display (read in)
+               :pixel (read in)
+			   :ratio (read in)
+          )
      )
-     (terpri)
+     (close in)
      cell
 )
 
@@ -158,9 +121,7 @@
      (setq top 0)
 	 (setq med 0)
 	 (setq bad 0)
-     (write "Aparelhos semelhantes: ")
-	 (terpri)
-	 (loop for x from 1 to K do
+	 (loop for x from 0 to (- K 1) do
 	      (setq cell (nth x Lista))
           (write (phone-modelo cell))
 		  (case (phone-qual cell)
@@ -168,22 +129,23 @@
 			   (1 (incf med))
 			   (2 (incf top))
 		   )
-		  (terpri)
-     )
-	 (write "Classificacao do aparelho informado: ")
-     (if (> top med)
+		   (terpri)
+	)
+	 (format t "Classe: ")
+	 (if (> top med)
           	 (if (> top bad)
-			      (write "Top!")
-			(write "Bad!"))
+			      (format t "Top!")
+			(format t "Bad!"))
 	 (if (> med bad)
-			(write "Med!")
-	 (write "Bad!")))
+			(format t "Med!")
+	 (format t "Bad!")))
 )
+
 ;main
-(setq File "database.csv")
-(setq Fila (GetDatabase File))
-(setq user (menu))
-(setq Fila (CalcRatio Fila user))
-(ListSort Fila)
-(PrintList Fila (phone-ratio user))
-(setq x (read))
+(setq File "database.csv")                              ;definindo banco de dados
+(setq Banco (GetDatabase File))                         ;obtendo todos os dados do banco
+(setq File "user.txt")                                  ;definindo base de comparação
+(setq user (GetUser File))                              ;obtendo todos os dados de comparação
+(setq Banco (CalcRatio Banco user))                     ;calculando ratio
+(ListSort Banco)                                        ;ordenando banco segundo o ratio
+(PrintList Banco (phone-ratio user))                    ;imprimindo resultado
